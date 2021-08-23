@@ -34,6 +34,34 @@ fun main() {
     println("result: ${result}")
     //3.可变数量参数, 还有其他参数时用具名参数赋值
     println("result2: " + append('s','l','e','e','p', time=11))
+
+
+    //-------------------------- lambda表达式 ---------------------------//
+    val numbers = arrayOf(1,2,3,4)
+    transform(numbers, action = { index, element ->
+        index * element
+    })
+    for (index in numbers.indices) {
+        println("numbers: ${numbers[index]}")
+    }
+    transform(numbers) {index, element ->
+        index * element
+    }
+    for (index in numbers.indices) {
+        println("numbers: ${numbers[index]}")
+    }
+    //lambda隐形参数it 仅一个参数时
+    numbers.forEach {
+        println(it)
+    }
+
+    val list = arrayListOf<Int>(1,2,3,4,5,6)
+    list.forEachIndexed(action = {index, i ->
+        println("forEachIndexed:${index} -> ${i}")
+    })
+    list.forEachIndexed{index, i ->
+        println("forEachIndexed2:${index} -> ${i}")
+    }
 }
 
 //普通类 class
@@ -93,4 +121,13 @@ fun append(vararg str: Char, time: Int): String {
     }
     result.append(" time = " + time)
     return result.toString()
+}
+
+
+//-------------------------- lambda表达式 ---------------------------//
+fun transform(array : Array<Int>, action: (index: Int, element: Int) -> Int) {
+    for(index in array.indices) {
+        val newValue = action(index, array[index]);
+        array[index] = newValue
+    }
 }
